@@ -81,9 +81,9 @@ for epoch = 1:epochs
     count = count + 1;
     this_chunk_CE = this_chunk_CE + (CE - this_chunk_CE) / count;
     trainset_CE = trainset_CE + (CE - trainset_CE) / m;
-    fprintf(1, '\rBatch %d Train CE %.3f', m, this_chunk_CE);
+    % fprintf(1, '\rBatch %d of Epoch %d Train CE %.3f', m, epoch, this_chunk_CE);
     if mod(m, show_training_CE_after) == 0
-      fprintf(1, '\n');
+      % fprintf(1, '\n');
       count = 0;
       this_chunk_CE = 0;
     end
@@ -178,19 +178,19 @@ for epoch = 1:epochs
       expanded_valid_target = expansion_matrix(:, valid_target);
       CE = -sum(sum(...
         expanded_valid_target .* log(output_layer_state + tiny))) /datasetsize;
-      fprintf(1, ' Validation CE %.3f\n', CE);
+      fprintf(1, ' Validation CE of Epoch %d %.3f\n', epoch, CE);
       if OctaveMode
         fflush(1);
       end
     end
   end
-  fprintf(1, '\rAverage Training CE %.3f\n', trainset_CE);
+  fprintf(1, '\rAverage Training CE of Epoch %d %.3f\n', epoch, trainset_CE);
 end
 fprintf(1, 'Finished Training.\n');
 if OctaveMode
   fflush(1);
 end
-fprintf(1, 'Final Training CE %.3f\n', trainset_CE);
+fprintf(1, 'Final Training CE of Epoch %d %.3f\n', epoch, trainset_CE);
 
 % EVALUATE ON VALIDATION SET.
 fprintf(1, '\rRunning validation ...');
@@ -204,7 +204,7 @@ datasetsize = size(valid_input, 2);
 expanded_valid_target = expansion_matrix(:, valid_target);
 CE = -sum(sum(...
   expanded_valid_target .* log(output_layer_state + tiny))) / datasetsize;
-fprintf(1, '\rFinal Validation CE %.3f\n', CE);
+fprintf(1, '\rFinal Validation CE of Epoch %d %.3f\n', epoch, CE);
 if OctaveMode
   fflush(1);
 end
@@ -221,7 +221,7 @@ datasetsize = size(test_input, 2);
 expanded_test_target = expansion_matrix(:, test_target);
 CE = -sum(sum(...
   expanded_test_target .* log(output_layer_state + tiny))) / datasetsize;
-fprintf(1, '\rFinal Test CE %.3f\n', CE);
+fprintf(1, '\rFinal Test CE of Epoch %d %.3f\n', epoch, CE);
 if OctaveMode
   fflush(1);
 end
