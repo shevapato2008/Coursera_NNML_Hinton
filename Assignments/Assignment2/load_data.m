@@ -14,9 +14,16 @@ function [train_input, train_target, valid_input, valid_target, test_input, test
 %   vocab: Vocabulary containing index to word mapping.
 
 load data.mat;
+
+% numdims = number of dimensions of training data
+% D = number of input words excluding the label (the last word)
 numdims = size(data.trainData, 1);
 D = numdims - 1;
+
+% N = size of mini-batch
+% M = number of mini-batches
 M = floor(size(data.trainData, 2) / N);
+
 train_input = reshape(data.trainData(1:D, 1:N * M), D, N, M);
 train_target = reshape(data.trainData(D + 1, 1:N * M), 1, N, M);
 valid_input = data.validData(1:D, :);
